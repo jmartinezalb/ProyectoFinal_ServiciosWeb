@@ -1,0 +1,9 @@
+src/
+ ├── config/        # Configuración (db, variables de entorno, middlewares globales)
+ ├── models/        # Modelos de datos (ORM, esquemas, clases)
+ ├── controllers/   # Lógica de negocio y manejo de peticiones
+ ├── routes/        # Definición de endpoints o rutas
+ ├── services/      # Servicios auxiliares (ej. email, auth, integración externa)
+ ├── utils/         # Funciones reutilizables, helpers
+ ├── middlewares/   # Middlewares de validación, auth, logging, etc.
+ └── index.js       # Punto de entrada de la app
