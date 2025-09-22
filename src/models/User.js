@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
+const bcrypt = require("bcrypt");
 
 const User = sequelize.define("User", {
   id: {
@@ -21,11 +22,25 @@ const User = sequelize.define("User", {
   password: {
     type: DataTypes.STRING,
     allowNull: false
-    // ⚠️ Aquí deberías guardar la contraseña encriptada (bcrypt), no en texto plano
   }
 }, {
-  tableName: "users",  // nombre de la tabla en BD
-  timestamps: true    
+  tableName: "users",
+  timestamps: true,
+  hooks: {
+    beforeCreate: async (user) => {
+      user.password = await bcrypt.hash(user.password, 12);
+    },
+    beforeUpdate: async (user) => {
+      if (user.changed("password")) {
+        user.password = await bcrypt.hash(user.password, 12);
+      }
+    }
+  }
 });
+
+// Método para comparar password
+User.prototype.comparePassword = async function(candidatePassword) {
+  return await bcrypt.compare(candidatePassword, this.password);
+};
 
 module.exports = User;
