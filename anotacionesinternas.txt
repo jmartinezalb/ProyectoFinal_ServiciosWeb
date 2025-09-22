@@ -7,3 +7,8 @@ src/
  ├── utils/         # Funciones reutilizables, helpers
  ├── middlewares/   # Middlewares de validación, auth, logging, etc.
  └── index.js       # Punto de entrada de la app
+
+
+express-validator
+registro por metodo post
+//middleware de validación de correo electrónico
