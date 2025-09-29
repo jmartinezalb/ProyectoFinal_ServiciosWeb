@@ -1,19 +1,24 @@
 // index.js
 const express = require("express");
 const sequelize = require("./config/database");
+const helmet = require("helmet");
+const morgan = require("morgan");
+const cors = require("cors")
 const authRoutes = require("./routes/authroutes"); // 👈 importa las rutas de auth
 const User = require("./models/UserModel");
 const Category = require("./models/CategoryModel");
 const Incomes = require("./models/IncomesModel");
-const Expenses = requier("./models/ExpensesModel");
+const Expenses = require("./models/ExpensesModel");
 require("dotenv").config();
 
-const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(helmet());
+app.use(cors());
+app.use(morgan('dev'));
 
 // Rutas
 app.use("/api/auth", authRoutes);
