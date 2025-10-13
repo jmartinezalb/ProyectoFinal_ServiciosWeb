@@ -1,0 +1,37 @@
+{
+    "name": "servicio-final-v1",
+    "version": "1.0.0",
+    "description": "Primer servicio Node.js con endpoints básicos",
+    "main": "src/index.js",
+    "scripts": {
+        "start": "node src/index.js",
+        "dev": "nodemon src/index.js",
+        "prod": "NODE_ENV=production node src/index.js"
+    },
+    "dependencies": {
+        "bcrypt": "^6.0.0",
+        "cors": "^2.8.5",
+        "dotenv": "^16.6.1",
+        "express": "^4.21.2",
+        "express-validator": "^7.2.1",
+        "helmet": "^8.1.0",
+        "jsonwebtoken": "^9.0.2",
+        "morgan": "^1.10.1",
+        "mysql2": "^3.15.0",
+        "sequelize": "^6.37.7"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.10"
+    },
+    "author": "Juan Martinez, Paul Plascencia",
+    "license": "ISC",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jmartinezalb/ProyectoFinal_ServiciosWeb.git"
+    },
+    "keywords": [],
+    "bugs": {
+        "url": "https://github.com/jmartinezalb/ProyectoFinal_ServiciosWeb/issues"
+    },
+    "homepage": "https://github.com/jmartinezalb/ProyectoFinal_ServiciosWeb#readme"
+}
