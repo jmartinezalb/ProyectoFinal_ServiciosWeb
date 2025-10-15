@@ -4,7 +4,9 @@ const sequelize = require("./config/database");
 const helmet = require("helmet");
 const cors = require("cors");
 const { setupMorgan } = require("./config/logger");
-const authRoutes = require("./routes/authroutes"); // 👈 importa las rutas de auth
+const authRoutes = require("./routes/authroutes");
+const expensesRoutes = require("./routes/expensesRoutes"); 
+const categoryRoutes = require("./routes/categoryRoutes"); 
 const User = require("./models/UserModel");
 const Category = require("./models/CategoryModel");
 const Incomes = require("./models/IncomesModel");
@@ -25,6 +27,8 @@ setupMorgan(app, process.env.NODE_ENV || 'development');
 
 // Rutas
 app.use("/api/auth", authRoutes);
+app.use("/api/expenses", expensesRoutes);
+app.use("/api/category", categoryRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {
