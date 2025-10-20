@@ -1,6 +1,5 @@
-// routes/authRoutes.js
 const express = require("express");
-const { body } = require("express-validator");
+const { body, validationResult } = require("express-validator");
 const authController = require("../controllers/authControllers");
 
 const router = express.Router();
@@ -9,21 +8,54 @@ const router = express.Router();
 router.post(
   "/register",
   [
-    body("username").notEmpty().withMessage("El usuario es obligatorio"),
-    body("email").isEmail().withMessage("Email inválido"),
-    body("password").isLength({ min: 6 }).withMessage("Mínimo 6 caracteres")
+    body("username")
+      .trim()
+      .notEmpty().withMessage("El usuario es obligatorio")
+      .isLength({ min: 3 }).withMessage("Mínimo 3 caracteres"),
+    body("email")
+      .trim()
+      .isEmail().withMessage("Email inválido"),
+    body("password")
+      .trim()
+      .isLength({ min: 6 }).withMessage("La contraseña debe tener al menos 6 caracteres")
   ],
-  authController.register
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      await authController.register(req, res);
+    } catch (err) {
+      res.status(500).json({ error: "Error al registrar el usuario", details: err.message });
+    }
+  }
 );
-//faltan los throws de errores + await y valiaciones de cadenas
+
 // Ruta para login
 router.post(
   "/login",
   [
-    body("email").isEmail().withMessage("Email inválido"),
-    body("password").notEmpty().withMessage("La contraseña es obligatoria")
+    body("email")
+      .trim()
+      .isEmail().withMessage("Email inválido"),
+    body("password")
+      .trim()
+      .notEmpty().withMessage("La contraseña es obligatoria")
   ],
-  authController.login
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      await authController.login(req, res);
+    } catch (err) {
+      res.status(500).json({ error: "Error al iniciar sesión", details: err.message });
+    }
+  }
 );
 
 module.exports = router;
