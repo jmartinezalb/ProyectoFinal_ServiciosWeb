@@ -12,3 +12,5 @@ src/
 express-validator
 registro por metodo post
 //middleware de validación de correo electrónico
+librerias fakers
+features con conexión a Trello
