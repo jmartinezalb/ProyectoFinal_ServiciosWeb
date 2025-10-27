@@ -26,19 +26,24 @@ app.use(cors());
 setupMorgan(app, process.env.NODE_ENV || 'development');
 
 // Rutas
+// index.js
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public')); // sirve todos los archivos estáticos
 app.use("/api/auth", authRoutes);
 app.use("/api/expenses", expensesRoutes);
 app.use("/api/category", categoryRoutes);
 
+
 // Health check endpoint
-app.get('/health', (req, res) => {
-  res.status(200).json({ 
-    status: 'OK', 
-    message: 'Servicio funcionando',
-    timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development'
-  });
+app.get('/', (req, res) => {
+  res.status(200).send(`
+    <h1> Servidor funcionando correctamente</h1>
+    <p>Base de datos conectada a <b>${process.env.DB_NAME}</b></p>
+    <p>Entorno: <b>${process.env.NODE_ENV || 'development'}</b></p>
+    <p><a href="/health">Ir al health check</a></p>
+  `);
 });
+
 
 // Middleware para manejar rutas no encontradas
 app.use('*', (req, res) => {
