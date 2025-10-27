@@ -68,7 +68,7 @@ Expenses.belongsTo(Category, { foreignKey: "category_id", as: "expenses" });
     await sequelize.authenticate();
     console.log("Conexión establecida con éxito a:", process.env.DB_NAME);
 
-    await sequelize.sync({ alter: true });
+    await sequelize.sync();
     console.log("Modelos sincronizados");
 
     // Iniciar servidor
