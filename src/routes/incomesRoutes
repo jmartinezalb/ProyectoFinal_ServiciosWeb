@@ -1,0 +1,29 @@
+const express = require("express");
+const { body } = require("express-validator");
+const incomesController = require("../controllers/incomesControllers");
+const authMiddleware = require("../middlewares/authMiddleware");
+
+const router = express.Router();
+
+// Crear ingreso
+router.post(
+  "/",
+  [
+    body("amount").notEmpty().withMessage("Monto obligatorio"),
+    body("date").isDate().withMessage("Fecha inválida"),
+    body("desc").notEmpty().withMessage("Descripción obligatoria")
+  ],
+  authMiddleware,
+  incomesController.incomeReg
+);
+
+// Obtener ingresos
+router.get("/", authMiddleware, incomesController.getIncomes);
+
+// Actualizar ingreso
+router.put("/:id", authMiddleware, incomesController.updateIncome);
+
+// Eliminar ingreso
+router.delete("/:id", authMiddleware, incomesController.deleteIncome);
+
+module.exports = router;

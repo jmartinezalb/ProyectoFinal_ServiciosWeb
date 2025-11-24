@@ -5,9 +5,9 @@ const authMiddleware = require("../middlewares/authMiddleware");
 
 const router = express.Router();
 
-// Ruta para registrar gasto
+// Crear gasto
 router.post(
-  "/expReg",
+  "/",
   [
     body("amount").notEmpty().withMessage("El monto no debe estar vacio"),
     body("date").isDate().withMessage("Formato de fecha invalido"),
@@ -17,6 +17,13 @@ router.post(
   expensesController.expReg
 );
 
-router.get("/getExpenses", expensesController.getExpenses);
+// Obtener todos los gastos del usuario
+router.get("/", authMiddleware, expensesController.getExpenses);
+
+// Actualizar gasto
+router.put("/:id", authMiddleware, expensesController.updateExpense);
+
+// Eliminar gasto
+router.delete("/:id", authMiddleware, expensesController.deleteExpense);
 
 module.exports = router;

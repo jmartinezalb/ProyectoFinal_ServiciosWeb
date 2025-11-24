@@ -16,8 +16,9 @@ const Expenses = sequelize.define("Expenses", {
     allowNull: false,
   },
   desc: {
-    type: DataTypes.STRING(200),
+    type: DataTypes.STRING,
     allowNull: false,
+    defaultValue: "Sin descripción" 
   },
   user_id: {
     type: DataTypes.INTEGER,
