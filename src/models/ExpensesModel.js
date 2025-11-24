@@ -34,7 +34,7 @@ const Expenses = sequelize.define("Expenses", {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-        model: "categories",
+        model: "category",
         key: "id"
     },
     onDelete: "CASCADE",
