@@ -1,11 +1,11 @@
 const express = require("express");
 const { body } = require("express-validator");
-const expensesController = require("../controllers/expensesControllers");
+const incomesController = require("../controllers/incomesControllers");
 const authMiddleware = require("../middlewares/authMiddleware");
 
 const router = express.Router();
 
-// Crear gasto
+// Crear ingreso
 router.post(
   "/",
   [
@@ -14,16 +14,16 @@ router.post(
     body("desc").notEmpty().withMessage("Descripción obligatoria")
   ],
   authMiddleware,
-  expensesController.expReg
+  incomesController.incomeReg
 );
 
-// Obtener todos los gastos del usuario
-router.get("/", authMiddleware, expensesController.getExpenses);
+// Obtener ingresos
+router.get("/", authMiddleware, incomesController.getIncomes);
 
-// Actualizar gasto
-router.put("/:id", authMiddleware, expensesController.updateExpense);
+// Actualizar ingreso
+router.put("/:id", authMiddleware, incomesController.updateIncome);
 
-// Eliminar gasto
-router.delete("/:id", authMiddleware, expensesController.deleteExpense);
+// Eliminar ingreso
+router.delete("/:id", authMiddleware, incomesController.deleteIncome);
 
 module.exports = router;
