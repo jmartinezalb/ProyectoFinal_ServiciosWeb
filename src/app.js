@@ -36,7 +36,7 @@ const swaggerOptions = {
       description: 'API para gestionar gastos, ingresos y categorías',
     },
   },
-  apis: ['./src/routes/*.js'], // Ruta a tus archivos con JSDoc
+  apis: ['./src/routes/*.js', './src/controllers/*.js'],
 };
 const specs = swaggerJsdoc(swaggerOptions);
 

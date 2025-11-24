@@ -3,13 +3,60 @@ const Exp = require("../models/ExpensesModel");
 const Category = require("../models/CategoryModel");
 const expensesService = require('../services/expensesService');
 
-// Crear gasto
+/**
+ * @swagger
+ * tags:
+ *   name: Expenses
+ *   description: Gestión de gastos del usuario
+ */
+
+/**
+ * @swagger
+ * /api/expenses:
+ *   post:
+ *     summary: Registrar un nuevo gasto
+ *     tags: [Expenses]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - amount
+ *               - date
+ *               - desc
+ *               - category_id
+ *             properties:
+ *               amount:
+ *                 type: number
+ *                 example: 300
+ *               date:
+ *                 type: string
+ *                 format: date
+ *                 example: 2025-11-24
+ *               desc:
+ *                 type: string
+ *                 example: Compra de alimentos
+ *               category_id:
+ *                 type: integer
+ *                 example: 1
+ *     responses:
+ *       201:
+ *         description: Gasto registrado con éxito
+ *       400:
+ *         description: Error de validación
+ *       500:
+ *         description: Error interno del servidor
+ */
 exports.expReg = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
   try {
-    const { amount, date, desc, category_id } = req.body; // <-- usar 'desc' del body
+    const { amount, date, desc, category_id } = req.body;
     const exp = await Exp.create({ 
       amount, 
       date, 
@@ -25,7 +72,20 @@ exports.expReg = async (req, res) => {
   }
 };
 
-// Obtener todos los gastos del usuario
+/**
+ * @swagger
+ * /api/expenses:
+ *   get:
+ *     summary: Obtener todos los gastos del usuario
+ *     tags: [Expenses]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Lista de gastos
+ *       500:
+ *         description: Error interno del servidor
+ */
 exports.getExpenses = async (req, res) => {
   try {
     const expenses = await Exp.findAll({ 
@@ -39,14 +99,55 @@ exports.getExpenses = async (req, res) => {
   }
 };
 
-// Actualizar gasto
+/**
+ * @swagger
+ * /api/expenses/{id}:
+ *   put:
+ *     summary: Actualizar gasto por ID
+ *     tags: [Expenses]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               amount:
+ *                 type: number
+ *                 example: 350
+ *               date:
+ *                 type: string
+ *                 format: date
+ *                 example: 2025-11-25
+ *               desc:
+ *                 type: string
+ *                 example: Compra actualizada
+ *               category_id:
+ *                 type: integer
+ *                 example: 2
+ *     responses:
+ *       200:
+ *         description: Gasto actualizado
+ *       404:
+ *         description: Gasto no encontrado
+ *       500:
+ *         description: Error interno del servidor
+ */
 exports.updateExpense = async (req, res) => {
   try {
     const { id } = req.params;
     const exp = await Exp.findOne({ where: { id, user_id: req.user.id } });
     if (!exp) return res.status(404).json({ success: false, message: "Gasto no encontrado" });
 
-    const { amount, date, desc, category_id } = req.body; // <-- usar 'desc'
+    const { amount, date, desc, category_id } = req.body;
     await exp.update({ 
       amount, 
       date, 
@@ -61,7 +162,28 @@ exports.updateExpense = async (req, res) => {
   }
 };
 
-// Eliminar gasto
+/**
+ * @swagger
+ * /api/expenses/{id}:
+ *   delete:
+ *     summary: Eliminar gasto por ID
+ *     tags: [Expenses]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Gasto eliminado
+ *       404:
+ *         description: Gasto no encontrado
+ *       500:
+ *         description: Error interno del servidor
+ */
 exports.deleteExpense = async (req, res) => {
   try {
     const { id } = req.params;
