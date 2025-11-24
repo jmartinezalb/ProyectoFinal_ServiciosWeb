@@ -9,9 +9,9 @@ const router = express.Router();
 router.post(
   "/",
   [
-    body("amount").notEmpty().withMessage("Monto obligatorio"),
-    body("date").isDate().withMessage("Fecha inválida"),
-    body("desc").notEmpty().withMessage("Descripción obligatoria")
+    body("amount").notEmpty().withMessage("El monto no debe estar vacio"),
+    body("date").isDate().withMessage("Formato de fecha invalido"),
+    body("desc").notEmpty().withMessage("La descripcion no puede estar vacia")
   ],
   authMiddleware,
   expensesController.expReg

@@ -1,6 +1,7 @@
 const { validationResult } = require("express-validator");
 const Exp = require("../models/ExpensesModel");
 const Category = require("../models/CategoryModel");
+const expensesService = require('../services/expensesService');
 
 // Crear gasto
 exports.expReg = async (req, res) => {
