@@ -12,7 +12,7 @@ exports.expReg = async (req, res) => {
     const exp = await Exp.create({ 
       amount, 
       date, 
-      descrip: desc, // <-- mapear 'desc' a 'descrip'
+      desc: desc,
       user_id: req.user.id, 
       category_id 
     });
@@ -49,7 +49,7 @@ exports.updateExpense = async (req, res) => {
     await exp.update({ 
       amount, 
       date, 
-      descrip: desc, // <-- mapear 'desc' a 'descrip'
+      desc: desc, 
       category_id 
     });
 

@@ -10,6 +10,14 @@ const swaggerJsdoc = require('swagger-jsdoc');
 
 const app = express();
 
+// ------------------- Evitar cache en páginas sensibles -------------------
+app.use((req, res, next) => {
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, private");
+  res.setHeader("Pragma", "no-cache");
+  res.setHeader("Expires", "0");
+  next();
+});
+
 // Middlewares globales
 app.use(express.static("public"));
 app.use(express.json());
