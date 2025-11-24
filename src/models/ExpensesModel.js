@@ -16,8 +16,9 @@ const Expenses = sequelize.define("Expenses", {
     allowNull: false,
   },
   desc: {
-    type: DataTypes.STRING(200),
+    type: DataTypes.STRING,
     allowNull: false,
+    defaultValue: "Sin descripción" 
   },
   user_id: {
     type: DataTypes.INTEGER,
@@ -33,7 +34,7 @@ const Expenses = sequelize.define("Expenses", {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-        model: "category",
+        model: "categories",
         key: "id"
     },
     onDelete: "CASCADE",
